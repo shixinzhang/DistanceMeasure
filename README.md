@@ -11,6 +11,7 @@ An android demo which can measure the distance from user to something while taki
 
 #Android 拍照测距
 ![借用下smart distance的截图](https://github.com/shixinzhang/DistanceMeasure/blob/master/guide_img.jpeg)
+(借用下smart distance的截图 , 如有不妥请告知)
 #使用方法:
  1. 输入目标物体的真实高度
  2. 动动手指用屏幕上的绿线圈住目标物体
