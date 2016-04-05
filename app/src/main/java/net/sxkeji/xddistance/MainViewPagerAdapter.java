@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
     private HomeFragment homeFragment;
-    private FindFragment findFragment;
+    private SettingFragment settingFragment;
 //    private PersonalFragment personalFragment;
 
     public MainViewPagerAdapter(FragmentManager fm) {
@@ -40,10 +40,10 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
                 }
                 return homeFragment;
             case 1:
-                if (findFragment == null) {
-                    findFragment = new FindFragment();
+                if (settingFragment == null) {
+                    settingFragment = new SettingFragment();
                 }
-                return findFragment;
+                return settingFragment;
             default:
                 return null;
         }

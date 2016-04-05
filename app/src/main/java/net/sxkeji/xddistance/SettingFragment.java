@@ -13,9 +13,9 @@ import android.view.ViewGroup;
  * Codes can never be perfect!
  * Email : sxzhang2016@163.com
  */
-public class FindFragment extends Fragment {
+public class SettingFragment extends Fragment {
 
-    private static final String TAG = FindFragment.class.getName();
+    private static final String TAG = SettingFragment.class.getName();
 
     private View view;
 
@@ -28,7 +28,7 @@ public class FindFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_find, null);
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_setting, null);
         return view;
     }
 }
