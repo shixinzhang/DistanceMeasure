@@ -20,6 +20,7 @@ import android.view.WindowManager;
 /**
  * 顶层绘制矩形、用户操作界面
  * Created by zhangshixin on 4/2/2016.
+ * Email : sxzhang2016@163.com
  */
 public class RectControlView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
     private final String TAG = "RectControlView";

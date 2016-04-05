@@ -21,6 +21,7 @@ import java.util.List;
  * 主页
  * Created by sxzhang on 2016/2/23.
  * Codes can never be perfect!
+ * Email : sxzhang2016@163.com
  */
 public class MainActivity extends FragmentActivity implements
         ViewPager.OnPageChangeListener, View.OnClickListener {

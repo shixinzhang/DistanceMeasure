@@ -11,6 +11,7 @@ import java.io.IOException;
 /**
  * 底层相机预览界面
  * Created by zhangshixin on 4/2/2016.
+ * Email : sxzhang2016@163.com
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private final String TAG = "CameraPreview";

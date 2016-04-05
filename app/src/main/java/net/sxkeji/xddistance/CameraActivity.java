@@ -34,6 +34,7 @@ import java.util.ArrayList;
 /**
  * 预览、拍照
  * Created by zhangshixin on 4/1/2016.
+ * Email : sxzhang2016@163.com
  */
 public class CameraActivity extends Activity implements RectControlView.OnRulerHeightChangedListener {
     private final String TAG = "CameraActivity";

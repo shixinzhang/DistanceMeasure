@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
  * Created by sxzhang on 2016/2/25.
  * Updated at 1:02 2016/3/11
  * Codes can never be perfect!
+ * Email : sxzhang2016@163.com
  */
 public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getName();

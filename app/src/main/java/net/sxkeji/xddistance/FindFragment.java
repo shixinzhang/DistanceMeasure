@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * 设置
  * Created by sxzhang on 2016/2/25.
  * Codes can never be perfect!
+ * Email : sxzhang2016@163.com
  */
 public class FindFragment extends Fragment {
 

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by sxzhang on 2016/2/25.
  * Codes can never be perfect!
+ * Email : sxzhang2016@163.com
  */
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
     private HomeFragment homeFragment;
