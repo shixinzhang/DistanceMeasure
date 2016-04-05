@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fl_camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <net.sxkeji.xddistance.RectControlView
+            android:id="@+id/rectControlView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测得距离:"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="目标高度(米):"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_target_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:hint="请输入"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/iv_take_photo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="40dp"
+            android:src="@mipmap/icon_take_photo" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

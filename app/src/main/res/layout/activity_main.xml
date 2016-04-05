@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zsx="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/id_viewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/gray_light"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+                <net.sxkeji.xddistance.ChangeColorIconWithTextView
+                    android:id="@+id/id_home"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="5dp"
+                    zsx:icon="@mipmap/icon_home"
+                    zsx:text_size="12sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+                <net.sxkeji.xddistance.ChangeColorIconWithTextView
+                    android:id="@+id/id_personal"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="5dp"
+                    zsx:icon="@mipmap/icon_setting"
+                    zsx:text_size="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <net.sxkeji.xddistance.ChangeColorIconWithTextView
+        android:id="@+id/takePhoto"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        zsx:icon="@mipmap/icon_take_photo"
+        zsx:text_size="12sp" />
+
+</RelativeLayout>

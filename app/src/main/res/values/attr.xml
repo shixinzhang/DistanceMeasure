@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="icon_zsx" format="reference" />
+    <attr name="color_zsx" format="color" />
+    <attr name="text" format="string" />
+    <attr name="text_size" format="dimension" />
+
+    <declare-styleable name="ChangeColorIconView">
+        <attr name="icon" />
+        <attr name="color" />
+        <attr name="text" />
+        <attr name="text_size" />
+    </declare-styleable>
+</resources>
