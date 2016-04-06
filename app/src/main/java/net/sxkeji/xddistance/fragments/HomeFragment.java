@@ -68,9 +68,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void initView() {
-        swipeRefresh.setOnRefreshListener(this);
-        swipeRefresh.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_bright,
-                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         ArrayList<PictureInfo> picturesData = getPicturesData();
         if (picturesData == null || picturesData.size() == 0) {
@@ -83,7 +80,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void initRecyclesView(ArrayList<PictureInfo> picsData) {
-        recycler.setVisibility(View.VISIBLE);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_bright,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        swipeRefresh.setVisibility(View.VISIBLE);
         mStaggerGridManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycler.setLayoutManager(mStaggerGridManager);
         mRecyclerAdapter = new HomePicturesRecyclerAdapter(getActivity());
