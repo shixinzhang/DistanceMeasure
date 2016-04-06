@@ -83,10 +83,6 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
                         if (camera != null) {
                             camera.takePicture(null, null, pictureCallback);
                         }
-//                        boolean saveSuccess = FileUtils.saveBitmap2File(mScreenCaptureBitmap);
-//                        if (!saveSuccess) {
-//                            Toast.makeText(CameraActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
-//                        }
                     }
                 }).start();
 
@@ -137,6 +133,8 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
         targetHeight = mSharedPreferences.getFloat(TARGET_HEIGHT, -1f);
         if (targetHeight != -1f) {
             etTargetHeight.setText(targetHeight + "");
+        }else {
+            targetHeight = Float.parseFloat(etTargetHeight.getText().toString());
         }
 
     }

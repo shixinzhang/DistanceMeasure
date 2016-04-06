@@ -39,6 +39,11 @@ public class HomePicturesRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
+    public void clearData(){
+        mData.clear();
+        notifyDataSetChanged();
+    }
+
     public void setOnItemClickListener(OnItemClickListener onClickListener) {
         this.onItemClickListener = onClickListener;
     }

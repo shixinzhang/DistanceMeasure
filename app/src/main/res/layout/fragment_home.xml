@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gray_white">
+    android:background="@color/gray_white"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
@@ -16,32 +17,43 @@
         android:textColor="@color/white"
         android:textSize="18sp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:overScrollMode="never" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:visibility="gone" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <RelativeLayout
         android:id="@+id/rl_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
+
         <ImageView
             android:id="@+id/img_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/img_empty"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:src="@mipmap/img_empty" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您还没有拍摄"
-            android:textSize="16sp"
-            android:textColor="@color/black"
             android:layout_below="@id/img_empty"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="您还没有拍摄"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>
+
