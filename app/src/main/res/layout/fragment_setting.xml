@@ -21,6 +21,7 @@
         android:background="@color/gray_light" />
 
     <RelativeLayout
+        android:id="@+id/rl_correct"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_layout_height"
         android:layout_marginTop="8dp"
@@ -52,6 +53,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_save_path"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_layout_height"
         android:layout_marginTop="1dp"
@@ -83,6 +85,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_feedback"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_layout_height"
         android:layout_marginTop="1dp"
@@ -115,6 +118,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_help"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_layout_height"
         android:layout_marginTop="1dp"
@@ -146,6 +150,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_about"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_layout_height"
         android:layout_marginTop="1dp"

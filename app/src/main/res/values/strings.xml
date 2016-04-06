@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">XDDistance</string>
+    <string name="app_name">拍照测距</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="app_display">拍照测距是一款帮助用户估量目标物体与手机距离的生活帮助类APP</string>
+    <string name="copy_right">Copyright © zhangshixin</string>
 </resources>
