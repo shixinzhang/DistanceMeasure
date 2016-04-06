@@ -1,4 +1,4 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.utils;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

@@ -1,8 +1,7 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.activitys;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -10,6 +9,11 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
+
+import net.sxkeji.xddistance.views.ChangeColorIconWithTextView;
+import net.sxkeji.xddistance.utils.FileUtils;
+import net.sxkeji.xddistance.adapters.MainViewPagerAdapter;
+import net.sxkeji.xddistance.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.sxkeji.xddistance">
+    package="net.sxkeji.xddistance"
+    android:sharedUserId="net.sxkeji">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -15,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activitys.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -26,9 +28,10 @@
         </activity>
 
         <activity
-            android:name=".CameraActivity"
+            android:name=".activitys.CameraActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:process=":camera"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
 
     </application>

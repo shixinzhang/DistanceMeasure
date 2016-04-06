@@ -20,11 +20,13 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:overScrollMode="never" />
     <RelativeLayout
         android:id="@+id/rl_empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/img_empty"
             android:layout_width="wrap_content"

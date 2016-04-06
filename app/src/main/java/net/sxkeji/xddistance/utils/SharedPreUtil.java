@@ -1,8 +1,10 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.utils;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import net.sxkeji.xddistance.BaseApplication;
 
 
 /**

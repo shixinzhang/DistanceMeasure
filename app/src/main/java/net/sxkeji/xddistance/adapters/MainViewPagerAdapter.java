@@ -1,8 +1,11 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import net.sxkeji.xddistance.fragments.HomeFragment;
+import net.sxkeji.xddistance.fragments.SettingFragment;
 
 
 /**

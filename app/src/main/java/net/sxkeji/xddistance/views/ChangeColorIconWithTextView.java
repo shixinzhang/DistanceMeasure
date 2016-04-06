@@ -1,4 +1,4 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,6 +17,8 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+
+import net.sxkeji.xddistance.R;
 
 public class ChangeColorIconWithTextView extends View {
 

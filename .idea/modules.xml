@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/XDDistance.iml" filepath="$PROJECT_DIR$/XDDistance.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/greenlib/greenlib.iml" filepath="$PROJECT_DIR$/greenlib/greenlib.iml" />
     </modules>
   </component>
 </project>

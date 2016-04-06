@@ -30,7 +30,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center">
-                <net.sxkeji.xddistance.ChangeColorIconWithTextView
+                <net.sxkeji.xddistance.views.ChangeColorIconWithTextView
                     android:id="@+id/id_home"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -45,7 +45,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center">
-                <net.sxkeji.xddistance.ChangeColorIconWithTextView
+                <net.sxkeji.xddistance.views.ChangeColorIconWithTextView
                     android:id="@+id/id_personal"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -58,7 +58,7 @@
 
     </LinearLayout>
 
-    <net.sxkeji.xddistance.ChangeColorIconWithTextView
+    <net.sxkeji.xddistance.views.ChangeColorIconWithTextView
         android:id="@+id/takePhoto"
         android:layout_width="72dp"
         android:layout_height="72dp"

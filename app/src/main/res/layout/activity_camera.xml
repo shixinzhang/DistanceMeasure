@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <net.sxkeji.xddistance.RectControlView
+        <net.sxkeji.xddistance.views.RectControlView
             android:id="@+id/rectControlView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -57,6 +57,7 @@
             android:gravity="center"
             android:inputType="numberDecimal"
             android:singleLine="true"
+            android:text="2.0"
             android:hint="请输入"
             android:textColor="@color/white"
             android:textSize="16sp"/>

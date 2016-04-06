@@ -1,4 +1,4 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;

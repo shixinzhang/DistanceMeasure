@@ -1,13 +1,14 @@
-package net.sxkeji.xddistance;
+package net.sxkeji.xddistance.activitys;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,14 +23,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.sxkeji.xddistance.BaseApplication;
+import net.sxkeji.xddistance.utils.FileUtils;
+import net.sxkeji.xddistance.PictureInfo;
+import net.sxkeji.xddistance.R;
+import net.sxkeji.xddistance.views.CameraPreview;
+import net.sxkeji.xddistance.views.RectControlView;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * 预览、拍照
@@ -51,10 +59,12 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     private TextView tvDistance;
     private EditText etTargetHeight;
     private float targetHeight = -1f;
+    private String targetDistance = "-1";
     private SharedPreferences mSharedPreferences;
     private int distanceX = 34;
     private Bitmap mScreenCaptureBitmap;
     private View decorView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +83,10 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
                         if (camera != null) {
                             camera.takePicture(null, null, pictureCallback);
                         }
-//                        boolean saveSuccess = FileUtils.saveScreenCaptureFile(CameraActivity.this);
-
-                        boolean saveSuccess = FileUtils.saveBitmap2File(mScreenCaptureBitmap);
-
-                        if (!saveSuccess) {
-                            Toast.makeText(CameraActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
-                        }
+//                        boolean saveSuccess = FileUtils.saveBitmap2File(mScreenCaptureBitmap);
+//                        if (!saveSuccess) {
+//                            Toast.makeText(CameraActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 }).start();
 
@@ -170,13 +177,26 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e(TAG, "onDestroy");
         releaseCamera();
+        if (spHandler != null) {
+            spHandler.removeCallbacksAndMessages(null);
+            spHandler = null;
+        }
+        if (decorView != null){
+            decorView = null;
+        }
+        if (mSharedPreferences != null){
+            mSharedPreferences = null;
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         initCamera();
+
     }
 
     private void releaseCamera() {
@@ -184,6 +204,12 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             camera.release();
             camera = null;
             Log.e(TAG, "releaseCamera");
+        }
+        if (cameraPreview != null){
+            cameraPreview = null;
+        }
+        if (rectControlView != null){
+            rectControlView = null;
         }
     }
 
@@ -239,12 +265,21 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             }
 
             try {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                bitmap = ThumbnailUtils.extractThumbnail(bitmap, 820, 480);
+
                 FileOutputStream fos = new FileOutputStream(pickFile);
-                fos.write(data);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+//                fos.write(data);
                 fos.close();
                 camera.startPreview();
                 Log.e(TAG, "Finish writing , path is " + pickFile);
                 Toast.makeText(CameraActivity.this, "图片保存到 " + pickFile, Toast.LENGTH_SHORT).show();
+                //save to db
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                PictureInfo pictureInfo = new PictureInfo(null, pickFile.getPath(), targetDistance, timeStamp, "notips");
+                savePic2DB(pictureInfo);
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Log.e(TAG, "FileNotFoundException " + e.getMessage());
@@ -254,6 +289,23 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             }
         }
     };
+
+    /**
+     * 保存到数据库中
+     *
+     * @param pictureInfo
+     */
+    private void savePic2DB(final PictureInfo pictureInfo) {
+        Log.e(TAG, "" + pictureInfo.getPath() + " / " + pictureInfo.getDistance() + " / " + pictureInfo.getTime());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long insert = BaseApplication.getDaoSession().getPictureInfoDao().insert(pictureInfo);
+                Log.e(TAG, insert + "号图片插入到DB");
+            }
+        }).start();
+
+    }
 
     /**
      * Ruler高度改变回调
@@ -268,6 +320,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
         double distance = targetHeight / rulerHeight * Math.pow(distanceX, 2);
         DecimalFormat decimalFormat = new DecimalFormat();
         decimalFormat.applyPattern("0.00");
-        tvDistance.setText(decimalFormat.format(distance));
+        targetDistance = decimalFormat.format(distance);
+        tvDistance.setText(targetDistance);
     }
 }
