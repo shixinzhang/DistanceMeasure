@@ -16,6 +16,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import net.sxkeji.xddistance.utils.FileUtils;
+
 
 /**
  * 顶层绘制矩形、用户操作界面
@@ -60,8 +62,8 @@ public class RectControlView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        mScreenWidth = getWindowDisplay().getWidth();
-        mScreenHeight = getWindowDisplay().getHeight();
+        mScreenWidth = FileUtils.getWindowDisplay(mContext).getWidth();
+        mScreenHeight = FileUtils.getWindowDisplay(mContext).getHeight();
         mHalfScreenWidth = mScreenWidth / 2;
         mHalfScreenHeight = mScreenHeight / 2;
         Log.e(TAG, "center : (" + mHalfScreenWidth + " , " + mHalfScreenHeight + ")");
@@ -153,16 +155,7 @@ public class RectControlView extends SurfaceView implements SurfaceHolder.Callba
                 rulerPaint);
     }
 
-    /**
-     * 获取屏幕参数
-     *
-     * @return
-     */
-    private Display getWindowDisplay() {
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        return display;
-    }
+
 
 
     float startX;

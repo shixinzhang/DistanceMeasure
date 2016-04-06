@@ -1,4 +1,4 @@
-package net.sxkeji.xddistance.activitys;
+package net.sxkeji.xddistance.activities;
 
 import android.app.Activity;
 import android.content.Context;

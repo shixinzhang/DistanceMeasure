@@ -1,5 +1,6 @@
 package net.sxkeji.xddistance.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import net.sxkeji.xddistance.BaseApplication;
 import net.sxkeji.xddistance.DaoSession;
+import net.sxkeji.xddistance.activities.PhotoDetailActivity;
 import net.sxkeji.xddistance.adapters.HomePicturesRecyclerAdapter;
 import net.sxkeji.xddistance.PictureInfo;
 import net.sxkeji.xddistance.PictureInfoDao;
@@ -72,6 +74,16 @@ public class HomeFragment extends Fragment {
             mStaggerGridManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             recycler.setLayoutManager(mStaggerGridManager);
             mRecyclerAdapter = new HomePicturesRecyclerAdapter(getActivity());
+            mRecyclerAdapter.setOnItemClickListener(new HomePicturesRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position, PictureInfo pictureInfo) {
+                    Intent intent = new Intent(getActivity(), PhotoDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("photoBean",pictureInfo);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
             mRecyclerAdapter.setmData(picturesData);
             recycler.setAdapter(mRecyclerAdapter);
             couldClear = true;

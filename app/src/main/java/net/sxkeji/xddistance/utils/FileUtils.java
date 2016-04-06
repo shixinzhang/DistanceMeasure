@@ -1,12 +1,15 @@
 package net.sxkeji.xddistance.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -117,5 +120,16 @@ public class FileUtils {
             Log.e(TAG, "IOException " + e.getMessage());
         }
         return false;
+    }
+
+    /**
+     * 获取屏幕参数
+     *
+     * @return
+     */
+    public static Display getWindowDisplay(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        return display;
     }
 }
