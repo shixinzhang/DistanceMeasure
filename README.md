@@ -1,8 +1,7 @@
 # DistanceMeasure
 An android demo which can measure the distance from user to something while taking photos，just like [smart distance](http://www.wandoujia.com/apps/kr.sira.distance)
-##Download [demoApk](http://fir.im/DistanceMeasure)
-##Thanks
-[smart distance](http://www.wandoujia.com/apps/kr.sira.distance)
+##Download [demo apk](http://fir.im/DistanceMeasure)
+##Thanks [smart distance](http://www.wandoujia.com/apps/kr.sira.distance)
 ##How to use
 1. Input the real height of the target you wanna to measure
 2. Surround the target with the green lines
