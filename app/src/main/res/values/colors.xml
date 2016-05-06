@@ -24,6 +24,7 @@
     <color name="blue_light">#0083FF</color>
     <color name="color_text_grey">#49596b</color>
     <color name="futures_green">#ff40ab5e</color>
+    <color name="dark_green">#ff20993a</color>
     <color name="futures_red">#d13939</color>
     <color name="color_login">#292c35</color>
     <color name="color_white">#ffffff</color>

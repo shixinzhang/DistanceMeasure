@@ -24,9 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sxkeji.xddistance.BaseApplication;
+import net.sxkeji.xddistance.utils.Constant;
 import net.sxkeji.xddistance.utils.FileUtils;
 import net.sxkeji.xddistance.PictureInfo;
 import net.sxkeji.xddistance.R;
+import net.sxkeji.xddistance.utils.SharedPreUtil;
 import net.sxkeji.xddistance.views.CameraPreview;
 import net.sxkeji.xddistance.views.RectControlView;
 
@@ -46,8 +48,6 @@ import java.util.Date;
  */
 public class CameraActivity extends Activity implements RectControlView.OnRulerHeightChangedListener {
     private final String TAG = "CameraActivity";
-    private final String SP_NAME = "xddistance";
-    private final String SP_HEIGHT = "target_height";
     private final int SP_WRITE = 1;
     private final String TARGET_HEIGHT = "target_height_setting";
 
@@ -61,7 +61,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     private float targetHeight = -1f;
     private String targetDistance = "-1";
     private SharedPreferences mSharedPreferences;
-    private int distanceX = 34;
+    private int distanceX;
     private Bitmap mScreenCaptureBitmap;
     private View decorView;
 
@@ -90,7 +90,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
                 Message msg = new Message();
                 msg.what = SP_WRITE;
                 Bundle bundle = new Bundle();
-                bundle.putFloat(SP_HEIGHT, targetHeight);
+                bundle.putFloat(Constant.SP_HEIGHT, targetHeight);
                 msg.setData(bundle);
                 spHandler.handleMessage(msg);
 
@@ -123,13 +123,14 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     private void initViews() {
         initCamera();
 
+        distanceX = SharedPreUtil.readInt(Constant.FACTOR, 34);
         decorView = this.getWindow().getDecorView();
         rectControlView = (RectControlView) findViewById(R.id.rectControlView);
         tvDistance = (TextView) findViewById(R.id.tv_distance);
         etTargetHeight = (EditText) findViewById(R.id.et_target_height);
         ivTakePhoto = (ImageView) findViewById(R.id.iv_take_photo);
 
-        mSharedPreferences = getSharedPreferences(SP_NAME, MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(Constant.SP_NAME, MODE_PRIVATE);
         targetHeight = mSharedPreferences.getFloat(TARGET_HEIGHT, -1f);
         if (targetHeight != -1f) {
             etTargetHeight.setText(targetHeight + "");
@@ -243,7 +244,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             switch (msg.what) {
                 case SP_WRITE:
                     Bundle data = msg.getData();
-                    float aFloat = data.getFloat(SP_HEIGHT, 0f);
+                    float aFloat = data.getFloat(Constant.SP_HEIGHT, 0f);
                     mSharedPreferences.edit().putFloat(TARGET_HEIGHT, aFloat).apply();
                     break;
             }

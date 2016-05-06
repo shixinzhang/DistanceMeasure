@@ -36,6 +36,10 @@ public class SharedPreUtil {
         return getSharedPreferences().getInt(key, 0);
     }
 
+    public static int readInt(String key,int defaultValue) {
+        return getSharedPreferences().getInt(key, defaultValue);
+    }
+
     public static float readFloat(String key) {
         return getSharedPreferences().getFloat(key, 0f);
     }
@@ -53,7 +57,7 @@ public class SharedPreUtil {
     }
 
     public static SharedPreferences getSharedPreferences() {
-        return BaseApplication.getInstance().getSharedPreferences("XDDistance", Context.MODE_PRIVATE);
+        return BaseApplication.getInstance().getApplicationContext().getSharedPreferences(Constant.SP_NAME, Context.MODE_PRIVATE);
     }
 
 }

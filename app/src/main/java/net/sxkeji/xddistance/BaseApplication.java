@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
  * Email : sxzhang2016@163.com
  */
 public class BaseApplication extends Application {
-    private static BaseApplication application;
+    private static  BaseApplication application ;
     private static SQLiteDatabase db;
     private static DaoMaster daoMaster;
     private static DaoSession daoSession;
@@ -16,6 +16,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        application = this;
         initDataBase();
     }
 
