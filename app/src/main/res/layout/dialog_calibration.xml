@@ -14,7 +14,9 @@
         android:background="@color/white"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <include layout="@layout/item_dialog_calibration"/>
+        <include layout="@layout/item_dialog_calibration" />
+
+        <include layout="@layout/item_dialog_save_path" />
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

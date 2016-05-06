@@ -7,11 +7,15 @@ An android demo which can measure the distance from user to something while taki
 2. Surround the target with the green lines
 3. Get the distance ! (for reference only)
 
+# ScreenShots
+<img src="/screenshots/screen_0.jpeg" height="400px">
+<img src="/screenshots/screen_1.jpeg" height="400px">
+<img src="/screenshots/screen_2.jpeg" height="400px">
+<img src="/screenshots/screen_3.jpeg" height="400px">
+<img src="/screenshots/screen_4.jpeg" height="400px">
 
+# Android 拍照测距
 
-#Android 拍照测距
-![借用下smart distance的截图](https://github.com/shixinzhang/DistanceMeasure/blob/master/guide_img.jpeg)
-(借用下smart distance的截图 , 如有不妥请告知)
 ##使用方法:
  1. 输入目标物体的真实高度
  2. 动动手指用屏幕上的绿线圈住目标物体

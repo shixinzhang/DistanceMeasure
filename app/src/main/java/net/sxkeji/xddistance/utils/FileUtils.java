@@ -36,8 +36,8 @@ public class FileUtils {
     public static File getOutputMediaFile(int type) {
         // TODO : check if there has a SD card
 //        if (Environment.getExternalStorageState() == Environment.)
-
-        File mediaDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "XDDistance");
+        String savePath = SharedPreUtil.readString(Constant.SAVE_PATH, Constant.DEFAULT__PATH);
+        File mediaDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), savePath);
 
         if (!mediaDir.exists()) {
             if (!mediaDir.mkdirs()) {

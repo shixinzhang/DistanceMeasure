@@ -32,11 +32,15 @@ public class SharedPreUtil {
         return getSharedPreferences().getString(key, "");
     }
 
+    public static String readString(String key, String defaultStr) {
+        return getSharedPreferences().getString(key, defaultStr);
+    }
+
     public static int readInt(String key) {
         return getSharedPreferences().getInt(key, 0);
     }
 
-    public static int readInt(String key,int defaultValue) {
+    public static int readInt(String key, int defaultValue) {
         return getSharedPreferences().getInt(key, defaultValue);
     }
 

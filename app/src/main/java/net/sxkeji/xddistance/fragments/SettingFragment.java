@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,10 +17,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.sxkeji.xddistance.R;
 import net.sxkeji.xddistance.activities.AboutAppActivity;
@@ -56,8 +59,8 @@ public class SettingFragment extends Fragment {
 
     private View view;
     private Context mContext;
-    private int distanceFactor;
     private int factor; //距离因子
+    private String savePath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +87,12 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showBottomSheetDialog(true);
+            }
+        });
+        rlSavePath.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomSheetDialog(false);
             }
         });
         rlFeedback.setOnClickListener(new OnClickListener() {
@@ -114,6 +123,7 @@ public class SettingFragment extends Fragment {
      */
     private void showBottomSheetDialog(boolean isCalibration) {
         factor = SharedPreUtil.readInt(Constant.FACTOR, 34);
+        savePath = SharedPreUtil.readString(Constant.SAVE_PATH, Constant.DEFAULT__PATH);
 
         final BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         View view = View.inflate(getContext(), R.layout.dialog_calibration, null);
@@ -161,15 +171,48 @@ public class SettingFragment extends Fragment {
             btnSave.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreUtil.writeInt(Constant.FACTOR, factor);
-                    Log.e(TAG, "save factor " + factor);
-                    dialog.cancel();
+                    if (factor < 0) {
+                        showToast("距离因子不能小于0");
+                    } else {
+                        SharedPreUtil.writeInt(Constant.FACTOR, factor);
+                        Log.e(TAG, "save factor " + factor);
+                        showToast("保存成功");
+                        dialog.cancel();
+                    }
                 }
             });
         } else {
+            final LinearLayout llSavePath = (LinearLayout) view.findViewById(R.id.ll_save_path);
+            llSavePath.setVisibility(View.VISIBLE);
+            TextView tvSavePath = (TextView) view.findViewById(R.id.tv_save_path);
+            final EditText etSavePath = (EditText) view.findViewById(R.id.et_save_path);
+            Button btnSave = (Button) view.findViewById(R.id.btn_save_path);
 
+            tvSavePath.setText("/sdcard/Pictures/" + savePath);
+            etSavePath.setText(savePath);
+
+            btnSave.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String newPath = etSavePath.getText().toString();
+                    if (TextUtils.isEmpty(newPath)) {
+                        showToast("保存路径不能为空");
+                    } else {
+                        SharedPreUtil.writeString(Constant.SAVE_PATH,newPath);
+                        Log.e(TAG, "save path " + newPath);
+                        showToast("保存成功");
+                        dialog.cancel();
+                    }
+                }
+            });
         }
 
+    }
+
+    void showToast(String str) {
+        if (!TextUtils.isEmpty(str)) {
+            Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
