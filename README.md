@@ -3,9 +3,12 @@ An android demo which can measure the distance from user to something while taki
 ## Download 
 
 [wandoujia](http://www.wandoujia.com/apps/net.sxkeji.xddistance)
+
 [fir.im](http://fir.im/DistanceMeasure)
 
-##Thanks [smart distance](http://www.wandoujia.com/apps/kr.sira.distance)
+## Thanks 
+
+[smart distance](http://www.wandoujia.com/apps/kr.sira.distance)
 ##How to use
 1. Input the real height of the target you wanna to measure
 2. Surround the target with the green lines
