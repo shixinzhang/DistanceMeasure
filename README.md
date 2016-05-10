@@ -2,9 +2,10 @@
 An android demo which can measure the distance from user to something while taking photos，just like [smart distance](http://www.wandoujia.com/apps/kr.sira.distance)
 ## Download 
 
-[wandoujia](http://www.wandoujia.com/apps/net.sxkeji.xddistance)
+[address0](http://fir.im/DistanceMeasure)
 
-[fir.im](http://fir.im/DistanceMeasure)
+[address1](http://www.wandoujia.com/apps/net.sxkeji.xddistance)
+
 
 ## Thanks 
 
