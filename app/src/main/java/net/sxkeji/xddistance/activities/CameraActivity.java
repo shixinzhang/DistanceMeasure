@@ -133,7 +133,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
         mSharedPreferences = getSharedPreferences(Constant.SP_NAME, MODE_PRIVATE);
         targetHeight = mSharedPreferences.getFloat(TARGET_HEIGHT, -1f);
         if (targetHeight != -1f) {
-            etTargetHeight.setText(targetHeight + "");
+            etTargetHeight.setText(Float.toString(targetHeight));
         }else {
             targetHeight = Float.parseFloat(etTargetHeight.getText().toString());
         }
@@ -231,11 +231,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
      * @return true if has
      */
     private boolean checkHasCameraOrNot(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            return true;
-        } else {
-            return false;
-        }
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     Handler spHandler = new Handler() {

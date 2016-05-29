@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void initView() {
 
         ArrayList<PictureInfo> picturesData = getPicturesData();
-        if (picturesData == null || picturesData.size() == 0) {
+        if (picturesData == null || picturesData.isEmpty()) {
             Log.e(TAG, "local db has no pictures!");
             rlEmpty.setVisibility(View.VISIBLE);
         } else {
