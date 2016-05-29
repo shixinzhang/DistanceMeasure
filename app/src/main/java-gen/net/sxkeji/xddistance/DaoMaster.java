@@ -17,6 +17,11 @@ import net.sxkeji.xddistance.PictureInfoDao;
 public class DaoMaster extends AbstractDaoMaster {
     public static final int SCHEMA_VERSION = 1;
 
+    public DaoMaster(SQLiteDatabase db) {
+        super(db, SCHEMA_VERSION);
+        registerDaoClass(PictureInfoDao.class);
+    }
+
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
         PictureInfoDao.createTable(db, ifNotExists);
@@ -52,11 +57,6 @@ public class DaoMaster extends AbstractDaoMaster {
             dropAllTables(db, true);
             onCreate(db);
         }
-    }
-
-    public DaoMaster(SQLiteDatabase db) {
-        super(db, SCHEMA_VERSION);
-        registerDaoClass(PictureInfoDao.class);
     }
     
     public DaoSession newSession() {
