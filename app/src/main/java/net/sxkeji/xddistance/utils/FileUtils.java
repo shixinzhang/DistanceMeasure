@@ -39,11 +39,9 @@ public class FileUtils {
         String savePath = SharedPreUtil.readString(Constant.SAVE_PATH, Constant.DEFAULT__PATH);
         File mediaDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), savePath);
 
-        if (!mediaDir.exists()) {
-            if (!mediaDir.mkdirs()) {
-                Log.e(TAG, "Error: failed to create directory");
-                return null;
-            }
+        if (!mediaDir.exists() && !mediaDir.mkdirs()) {
+            Log.e(TAG, "Error: failed to create directory");
+            return null;
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
