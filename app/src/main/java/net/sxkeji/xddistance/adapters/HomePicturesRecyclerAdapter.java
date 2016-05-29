@@ -18,6 +18,7 @@ import net.sxkeji.xddistance.PictureInfo;
 import net.sxkeji.xddistance.R;
 
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -26,7 +27,7 @@ import java.util.Random;
  * Created by zhangshixin on 3/11/2016.
  */
 public class HomePicturesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<PictureInfo> mData = new ArrayList<>();
+    private List<PictureInfo> mData = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
     private Context mContext;
 
@@ -34,7 +35,7 @@ public class HomePicturesRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         mContext = context;
     }
 
-    public void setmData(ArrayList<PictureInfo> data) {
+    public void setmData(List<PictureInfo> data) {
         mData.addAll(data);
         notifyDataSetChanged();
     }

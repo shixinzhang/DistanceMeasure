@@ -104,14 +104,12 @@ public class FileUtils {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(screenFile);
-            if (fos != null) {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
-                fos.flush();
-                fos.close();
-                Log.e(TAG, "截图保存到 " + screenFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
+            fos.flush();
+            fos.close();
+            Log.e(TAG, "截图保存到 " + screenFile);
 
-                return true;
-            }
+            return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Log.e(TAG, "FileNotFoundException " + e.getMessage());
