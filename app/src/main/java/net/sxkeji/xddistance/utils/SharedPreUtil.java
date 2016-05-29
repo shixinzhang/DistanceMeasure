@@ -12,6 +12,8 @@ import net.sxkeji.xddistance.BaseApplication;
  */
 public class SharedPreUtil {
 
+    private SharedPreUtil() {}
+
     public static void writeString(String key, String value) {
         getSharedPreferences().edit().putString(key, value).commit();
     }

@@ -24,6 +24,8 @@ import java.util.Date;
  * Created by zhangshixin on 4/2/2016.
  */
 public class FileUtils {
+    private FileUtils() {}
+
     private static final String TAG = "FileUtils";
     public static final int MEDIA_TYPE_IMG = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;

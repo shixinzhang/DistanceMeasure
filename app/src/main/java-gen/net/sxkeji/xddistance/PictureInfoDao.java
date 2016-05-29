@@ -23,6 +23,7 @@ public class PictureInfoDao extends AbstractDao<PictureInfo, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
+        private Properties() {}
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Path = new Property(1, String.class, "path", false, "PATH");
         public final static Property Distance = new Property(2, String.class, "distance", false, "DISTANCE");
