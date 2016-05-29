@@ -22,7 +22,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    private final String[] titles = { "主页", "个人中心"};
+    private static final String[] titles = { "主页", "个人中心"};
 
     @Override
     public CharSequence getPageTitle(int position) {

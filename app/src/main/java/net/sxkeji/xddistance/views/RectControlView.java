@@ -25,18 +25,21 @@ import net.sxkeji.xddistance.utils.FileUtils;
  * Email : sxzhang2016@163.com
  */
 public class RectControlView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
-    private final String TAG = "RectControlView";
+    private static final String TAG = "RectControlView";
 
     private SurfaceHolder mHolder;
     private Context mContext;
-    private final int centerSize = 20;
-    private final int rulerPaddingX = 20;   //尺子距离X轴边距
-    private final float rulerLineWidth = 5;
+    private static final int centerSize = 20;
+    private static final int rulerPaddingX = 20;   //尺子距离X轴边距
+    private static final float rulerLineWidth = 5;
     private float mScreenWidth;
     private float mScreenHeight;
     private float mHalfScreenWidth;   //屏幕宽度的一半
     private float mHalfScreenHeight;
     private OnRulerHeightChangedListener mListener;
+
+    float startX;
+    float startY;
 
     public RectControlView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -155,11 +158,6 @@ public class RectControlView extends SurfaceView implements SurfaceHolder.Callba
                 rulerPaint);
     }
 
-
-
-
-    float startX;
-    float startY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

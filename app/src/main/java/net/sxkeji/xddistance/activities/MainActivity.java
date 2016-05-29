@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity implements
     private ViewPager mViewPager;
     private List<ChangeColorIconWithTextView> mTabIndicator = new ArrayList<ChangeColorIconWithTextView>();
     private int clickCount = 0;
-    private final String COUNT = "clickCount";
+    private static final String COUNT = "clickCount";
     private View decorView;
 
     @Override

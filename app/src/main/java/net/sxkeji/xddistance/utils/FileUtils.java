@@ -74,7 +74,7 @@ public class FileUtils {
      * @return  true if success
      */
     public static boolean saveScreenCaptureFile(Activity activity) {
-        boolean saveSuccess = false;
+        boolean saveSuccess;
         View decorView = activity.getWindow().getDecorView();
         decorView.setDrawingCacheEnabled(true);
         decorView.buildDrawingCache();
