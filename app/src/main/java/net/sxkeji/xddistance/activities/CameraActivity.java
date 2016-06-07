@@ -47,9 +47,9 @@ import java.util.Date;
  * Email : sxzhang2016@163.com
  */
 public class CameraActivity extends Activity implements RectControlView.OnRulerHeightChangedListener {
-    private final String TAG = "CameraActivity";
-    private final int SP_WRITE = 1;
-    private final String TARGET_HEIGHT = "target_height_setting";
+    private final static String TAG = "CameraActivity";
+    private final static int SP_WRITE = 1;
+    private final static String TARGET_HEIGHT = "target_height_setting";
 
     private Camera camera;
     private CameraPreview cameraPreview;

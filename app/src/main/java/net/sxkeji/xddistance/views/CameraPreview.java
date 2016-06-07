@@ -14,7 +14,7 @@ import java.io.IOException;
  * Email : sxzhang2016@163.com
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    private final String TAG = "CameraPreview";
+    private static final String TAG = "CameraPreview";
     private Camera mCamera;
     private SurfaceHolder mHolder;
     private boolean isPreviewing = false;
