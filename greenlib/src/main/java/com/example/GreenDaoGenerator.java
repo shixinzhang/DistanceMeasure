@@ -7,6 +7,9 @@ import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
 public class GreenDaoGenerator {
+
+    private GreenDaoGenerator() {}
+
     public static void main(String[] args) throws Exception {
         int version = 1;
         String defaultPackage = "net.sxkeji.xddistance";
