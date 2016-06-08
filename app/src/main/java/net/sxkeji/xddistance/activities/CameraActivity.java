@@ -65,6 +65,57 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     private Bitmap mScreenCaptureBitmap;
     private View decorView;
 
+    Handler spHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SP_WRITE:
+                    Bundle data = msg.getData();
+                    float aFloat = data.getFloat(Constant.SP_HEIGHT, 0f);
+                    mSharedPreferences.edit().putFloat(TARGET_HEIGHT, aFloat).apply();
+                    break;
+            }
+            super.handleMessage(msg);
+
+        }
+    };
+
+    private Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            camera.stopPreview();
+            File pickFile = FileUtils.getOutputMediaFile(FileUtils.MEDIA_TYPE_IMG);
+            if (pickFile == null) {
+                Log.e(TAG, "Error : failed to create media file , check storage permissions ");
+                return;
+            }
+
+            try {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                bitmap = ThumbnailUtils.extractThumbnail(bitmap, 820, 480);
+
+                FileOutputStream fos = new FileOutputStream(pickFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+//                fos.write(data);
+                fos.close();
+                camera.startPreview();
+                Log.e(TAG, "Finish writing , path is " + pickFile);
+                Toast.makeText(CameraActivity.this, "图片保存到 " + pickFile, Toast.LENGTH_SHORT).show();
+                //save to db
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                PictureInfo pictureInfo = new PictureInfo(null, pickFile.getPath(), targetDistance, timeStamp, "notips");
+                savePic2DB(pictureInfo);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.e(TAG, "FileNotFoundException " + e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Error : failed  to access file " + e.getMessage());
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -233,57 +284,6 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     private boolean checkHasCameraOrNot(Context context) {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
-
-    Handler spHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SP_WRITE:
-                    Bundle data = msg.getData();
-                    float aFloat = data.getFloat(Constant.SP_HEIGHT, 0f);
-                    mSharedPreferences.edit().putFloat(TARGET_HEIGHT, aFloat).apply();
-                    break;
-            }
-            super.handleMessage(msg);
-
-        }
-    };
-
-    private Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            camera.stopPreview();
-            File pickFile = FileUtils.getOutputMediaFile(FileUtils.MEDIA_TYPE_IMG);
-            if (pickFile == null) {
-                Log.e(TAG, "Error : failed to create media file , check storage permissions ");
-                return;
-            }
-
-            try {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                bitmap = ThumbnailUtils.extractThumbnail(bitmap, 820, 480);
-
-                FileOutputStream fos = new FileOutputStream(pickFile);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-//                fos.write(data);
-                fos.close();
-                camera.startPreview();
-                Log.e(TAG, "Finish writing , path is " + pickFile);
-                Toast.makeText(CameraActivity.this, "图片保存到 " + pickFile, Toast.LENGTH_SHORT).show();
-                //save to db
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                PictureInfo pictureInfo = new PictureInfo(null, pickFile.getPath(), targetDistance, timeStamp, "notips");
-                savePic2DB(pictureInfo);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Log.e(TAG, "FileNotFoundException " + e.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e(TAG, "Error : failed  to access file " + e.getMessage());
-            }
-        }
-    };
 
     /**
      * 保存到数据库中

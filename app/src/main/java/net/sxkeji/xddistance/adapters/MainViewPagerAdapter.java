@@ -18,11 +18,11 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     private SettingFragment settingFragment;
 //    private PersonalFragment personalFragment;
 
+    private static final String[] titles = { "主页", "个人中心"};
+
     public MainViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
-
-    private static final String[] titles = { "主页", "个人中心"};
 
     @Override
     public CharSequence getPageTitle(int position) {

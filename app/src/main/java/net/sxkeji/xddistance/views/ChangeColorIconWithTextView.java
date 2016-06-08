@@ -50,6 +50,9 @@ public class ChangeColorIconWithTextView extends View {
 	private Paint mTextPaint;
 	private Rect mTextBound = new Rect();
 
+	private static final String INSTANCE_STATE = "instance_state";
+	private static final String STATE_ALPHA = "state_alpha";
+
 	public ChangeColorIconWithTextView(Context context) {
 		super(context);
 	}
@@ -191,9 +194,6 @@ public class ChangeColorIconWithTextView extends View {
 		if (mIconRect != null)
 			invalidateView();
 	}
-
-	private static final String INSTANCE_STATE = "instance_state";
-	private static final String STATE_ALPHA = "state_alpha";
 
 	@Override
 	protected Parcelable onSaveInstanceState() {
