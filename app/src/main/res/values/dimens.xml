@@ -8,5 +8,6 @@
     <dimen name="setting_img_size">24dp</dimen>
     <dimen name="setting_layout_height">48dp</dimen>
 
+    <dimen name="switch_height">40dp</dimen>
     <dimen name="help_font_size">16sp</dimen>
 </resources>

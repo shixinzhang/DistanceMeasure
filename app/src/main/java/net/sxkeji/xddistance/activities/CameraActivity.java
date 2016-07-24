@@ -9,14 +9,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,10 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sxkeji.xddistance.BaseApplication;
-import net.sxkeji.xddistance.utils.Constant;
-import net.sxkeji.xddistance.utils.FileUtils;
 import net.sxkeji.xddistance.PictureInfo;
 import net.sxkeji.xddistance.R;
+import net.sxkeji.xddistance.utils.Constant;
+import net.sxkeji.xddistance.utils.FileUtils;
 import net.sxkeji.xddistance.utils.SharedPreUtil;
 import net.sxkeji.xddistance.views.CameraPreview;
 import net.sxkeji.xddistance.views.RectControlView;
@@ -41,29 +44,45 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * 预览、拍照
  * Created by zhangshixin on 4/1/2016.
+ * Update on 23/7/2016 , add measure height
  * Email : sxzhang2016@163.com
  */
 public class CameraActivity extends Activity implements RectControlView.OnRulerHeightChangedListener {
     private final static String TAG = "CameraActivity";
     private final static int SP_WRITE = 1;
     private final static String TARGET_HEIGHT = "target_height_setting";
+    @Bind(R.id.btn_measure_distance)
+    Button btnMeasureDistance;
+    @Bind(R.id.btn_measure_height)
+    Button btnMeasureHeight;
+    @Bind(R.id.tv_distance_title)
+    TextView tvDistanceTitle;
+    @Bind(R.id.et_target_distance)
+    EditText etTargetDistance;
+    @Bind(R.id.tv_height_title)
+    TextView tvHeightTitle;
 
     private Camera camera;
     private CameraPreview cameraPreview;
     private RectControlView rectControlView;
     private FrameLayout rlCameraPreview;
     private ImageView ivTakePhoto;
-    private TextView tvDistance;
     private EditText etTargetHeight;
-    private float targetHeight = -1f;
-    private String targetDistance = "-1";
+    private float targetHeightFloat = -1f;       //用户输入的目标预计高度
+    private float targetDistanceFloat = -1f;    //用户输入的目标预计距离
+    private String targetDistance = "-1";   //测得的距离
+    private String targetHeight = "-1";     //测得的高度
     private SharedPreferences mSharedPreferences;
     private int distanceX;
     private Bitmap mScreenCaptureBitmap;
     private View decorView;
+    private boolean isMeasureDistance = true;
 
     Handler spHandler = new Handler() {
         @Override
@@ -116,15 +135,45 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
         }
     };
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+//    private GoogleApiClient client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        ButterKnife.bind(this);
         initViews();
         setListeners();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void setListeners() {
+        //选择测量距离
+        btnMeasureDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isMeasureDistance) {
+                    isMeasureDistance = !isMeasureDistance;
+                    switchMeasureMode();
+                }
+            }
+        });
+        //选择测量高度
+        btnMeasureHeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isMeasureDistance) {
+                    isMeasureDistance = !isMeasureDistance;
+                    switchMeasureMode();
+                }
+            }
+        });
+
         ivTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +190,7 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
                 Message msg = new Message();
                 msg.what = SP_WRITE;
                 Bundle bundle = new Bundle();
-                bundle.putFloat(Constant.SP_HEIGHT, targetHeight);
+                bundle.putFloat(Constant.SP_HEIGHT, targetHeightFloat);
                 msg.setData(bundle);
                 spHandler.handleMessage(msg);
 
@@ -161,14 +210,53 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             public void afterTextChanged(Editable s) {
                 String replaceStr = etTargetHeight.getText().toString();
                 if (replaceStr.contains("请输入") || TextUtils.isEmpty(replaceStr)) {
-                    targetHeight = 0f;
+                    targetHeightFloat = 0f;
                 } else {
-                    targetHeight = Float.parseFloat(replaceStr);
+                    targetHeightFloat = Float.parseFloat(replaceStr);
                 }
-//
-
             }
         });
+
+        etTargetDistance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String replaceStr = etTargetHeight.getText().toString();
+                if (replaceStr.contains("请输入") || TextUtils.isEmpty(replaceStr)) {
+                    targetDistanceFloat = 0f;
+                } else {
+                    targetDistanceFloat = Float.parseFloat(replaceStr);
+                }
+            }
+        });
+    }
+
+    /**
+     * 切换当前测量状态
+     */
+    private void switchMeasureMode() {
+        // 设置测量方式按钮状态
+        if (isMeasureDistance) {
+            btnMeasureDistance.setBackgroundResource(R.drawable.bg_save_selector);
+            btnMeasureHeight.setBackground(null);
+            tvDistanceTitle.setText("测得距离");
+            tvDistanceTitle.setEnabled(false);
+            tvHeightTitle.setText("输入预计高度(米)");
+        } else {
+            btnMeasureHeight.setBackgroundResource(R.drawable.bg_save_selector);
+            btnMeasureDistance.setBackground(null);
+            tvHeightTitle.setText("测得高度");
+            tvHeightTitle.setEnabled(false);
+            tvDistanceTitle.setText("输入预计距离(米)");
+
+        }
     }
 
     private void initViews() {
@@ -177,18 +265,18 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
         distanceX = SharedPreUtil.readInt(Constant.FACTOR, 34);
         decorView = this.getWindow().getDecorView();
         rectControlView = (RectControlView) findViewById(R.id.rectControlView);
-        tvDistance = (TextView) findViewById(R.id.tv_distance);
         etTargetHeight = (EditText) findViewById(R.id.et_target_height);
         ivTakePhoto = (ImageView) findViewById(R.id.iv_take_photo);
 
         mSharedPreferences = getSharedPreferences(Constant.SP_NAME, MODE_PRIVATE);
-        targetHeight = mSharedPreferences.getFloat(TARGET_HEIGHT, -1f);
-        if (targetHeight != -1f) {
-            etTargetHeight.setText(Float.toString(targetHeight));
-        }else {
-            targetHeight = Float.parseFloat(etTargetHeight.getText().toString());
+        targetHeightFloat = mSharedPreferences.getFloat(TARGET_HEIGHT, -1f);
+        if (targetHeightFloat != -1f) {
+            etTargetHeight.setText(Float.toString(targetHeightFloat));
+        } else {
+            targetHeightFloat = Float.parseFloat(etTargetHeight.getText().toString());
         }
 
+        switchMeasureMode();
     }
 
     private void initCameraPreview() {
@@ -233,13 +321,13 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             spHandler.removeCallbacksAndMessages(null);
             spHandler = null;
         }
-        if (decorView != null){
+        if (decorView != null) {
             decorView = null;
         }
-        if (mSharedPreferences != null){
+        if (mSharedPreferences != null) {
             mSharedPreferences = null;
         }
-        android.os.Process.killProcess(android.os.Process.myPid());
+        Process.killProcess(Process.myPid());
     }
 
     @Override
@@ -255,10 +343,10 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             camera = null;
             Log.e(TAG, "releaseCamera");
         }
-        if (cameraPreview != null){
+        if (cameraPreview != null) {
             cameraPreview = null;
         }
-        if (rectControlView != null){
+        if (rectControlView != null) {
             rectControlView = null;
         }
     }
@@ -305,17 +393,68 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
     /**
      * Ruler高度改变回调
      *
+     * [update on 7/24/2016 add measure height ]
+     *
      * @param rulerHeight
      * @param bitmap
      */
     @Override
     public void onRulerHeightChanged(float rulerHeight, Bitmap bitmap) {
-        Log.e(TAG, "targetHeight: " + targetHeight + " , rulerHeight: " + rulerHeight);
+        Log.e(TAG, "targetHeight: " + targetHeightFloat + " , rulerHeight: " + rulerHeight);
         mScreenCaptureBitmap = bitmap;
-        double distance = targetHeight / rulerHeight * Math.pow(distanceX, 2);
-        DecimalFormat decimalFormat = new DecimalFormat();
-        decimalFormat.applyPattern("0.00");
-        targetDistance = decimalFormat.format(distance);
-        tvDistance.setText(targetDistance);
+
+        if (isMeasureDistance) {
+            double distance = targetHeightFloat / rulerHeight * Math.pow(distanceX, 2);
+            DecimalFormat decimalFormat = new DecimalFormat();
+            decimalFormat.applyPattern("0.00");
+            targetDistance = decimalFormat.format(distance);
+            etTargetDistance.setText(targetDistance);
+        } else {
+            double height = targetDistanceFloat * rulerHeight / Math.pow(distanceX, 2);
+            DecimalFormat decimalFormat = new DecimalFormat();
+            decimalFormat.applyPattern("0.00");
+            targetHeight = decimalFormat.format(height);
+            etTargetHeight.setText(targetHeight);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        client.connect();
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "Camera Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app URL is correct.
+//                Uri.parse("android-app://net.sxkeji.xddistance.activities/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+//        // ATTENTION: This was auto-generated to implement the App Indexing API.
+//        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "Camera Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app URL is correct.
+//                Uri.parse("android-app://net.sxkeji.xddistance.activities/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.end(client, viewAction);
+//        client.disconnect();
     }
 }

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "net.sxkeji.xddistance"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0.3"
@@ -33,4 +33,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.greenrobot:greendao:2.0.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

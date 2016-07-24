@@ -19,6 +19,31 @@
     </FrameLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/switch_height"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_measure_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/yellow"
+            android:background="@drawable/bg_save_selector"
+            android:text="测距离" />
+
+        <Button
+            android:id="@+id/btn_measure_height"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:text="测高度" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
@@ -28,20 +53,26 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/tv_distance_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="测得距离:"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_distance"
+        <EditText
+            android:id="@+id/et_target_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/tv_height_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -55,12 +86,12 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="center"
+            android:hint="请输入"
             android:inputType="numberDecimal"
             android:singleLine="true"
             android:text="2.0"
-            android:hint="请输入"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_take_photo"
