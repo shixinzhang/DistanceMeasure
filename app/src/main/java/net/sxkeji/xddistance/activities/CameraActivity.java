@@ -228,11 +228,11 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
 
             @Override
             public void afterTextChanged(Editable s) {
-                String replaceStr = etTargetHeight.getText().toString();
-                if (replaceStr.contains("请输入") || TextUtils.isEmpty(replaceStr)) {
+//                String replaceStr = etTargetHeight.getText().toString();
+                if (s.toString().contains("请输入") || TextUtils.isEmpty(s.toString())) {
                     targetDistanceFloat = 0f;
                 } else {
-                    targetDistanceFloat = Float.parseFloat(replaceStr);
+                    targetDistanceFloat = Float.parseFloat(s.toString().replace("∞","0"));
                 }
             }
         });
@@ -247,13 +247,13 @@ public class CameraActivity extends Activity implements RectControlView.OnRulerH
             btnMeasureDistance.setBackgroundResource(R.drawable.bg_save_selector);
             btnMeasureHeight.setBackground(null);
             tvDistanceTitle.setText("测得距离");
-            tvDistanceTitle.setEnabled(false);
+//            tvDistanceTitle.setEnabled(false);
             tvHeightTitle.setText("输入预计高度(米)");
         } else {
             btnMeasureHeight.setBackgroundResource(R.drawable.bg_save_selector);
             btnMeasureDistance.setBackground(null);
             tvHeightTitle.setText("测得高度");
-            tvHeightTitle.setEnabled(false);
+//            tvHeightTitle.setEnabled(false);
             tvDistanceTitle.setText("输入预计距离(米)");
 
         }
