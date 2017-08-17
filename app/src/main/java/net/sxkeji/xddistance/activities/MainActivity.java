@@ -1,23 +1,26 @@
 package net.sxkeji.xddistance.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.Toast;
 
-
-import net.sxkeji.xddistance.views.ChangeColorIconWithTextView;
-import net.sxkeji.xddistance.utils.FileUtils;
-import net.sxkeji.xddistance.adapters.MainViewPagerAdapter;
 import net.sxkeji.xddistance.R;
+import net.sxkeji.xddistance.adapters.MainViewPagerAdapter;
+import net.sxkeji.xddistance.views.ChangeColorIconWithTextView;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,19 +37,39 @@ public class MainActivity extends FragmentActivity implements
     private List<ChangeColorIconWithTextView> mTabIndicator = new ArrayList<ChangeColorIconWithTextView>();
     private int clickCount = 0;
     private static final String COUNT = "clickCount";
-    private View decorView;
+    private String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String permissionMessage = "拍照测距需要使用\"相机\" 和 \"外部存储器\"权限，请授予！";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             clickCount = savedInstanceState.getInt(COUNT);
         }
         initView();
         setListener();
+        checkPermission();
+    }
 
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+        if (!checkPermissionAllGranted(permissions)) { //权限没允许
+            new AlertDialog.Builder(this)
+                    .setTitle("注意")
+                    .setMessage(permissionMessage)
+                    .setCancelable(false)
+                    .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, final int which) {
+                            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
+                        }
+                    })
+                    .show();
+        }
     }
 
     private void setListener() {
@@ -58,36 +81,6 @@ public class MainActivity extends FragmentActivity implements
         mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
         mViewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
         initTabIndicator();
-
-//        testMyReflect();
-    }
-
-    /**
-     * 测试一下反射调用截图
-     * TODO : 记得删除
-     */
-    private void testMyReflect() {
-        decorView = this.getWindow().getDecorView();
-        boolean saveSuccess = false;
-        try {
-            Class<?> viewClass = Class.forName("android.view.View");
-            Method snapshot = viewClass.getDeclaredMethod("createSnapshot", new Class[]{Bitmap.Config.class,
-                    int.class, boolean.class});
-            snapshot.setAccessible(true);
-            Bitmap bitmap = (Bitmap) snapshot.invoke(decorView, Bitmap.Config.RGB_565, 0xffff0000, false);
-            saveSuccess = FileUtils.saveBitmap2File(bitmap);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        if (!saveSuccess) {
-            Toast.makeText(MainActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void initTabIndicator() {
@@ -104,11 +97,80 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 clickCount++;
-//                Toast.makeText(MainActivity.this, "拍照" + clickCount, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                checkPermissionAndOpen();
             }
         });
 
+    }
+
+    private void checkPermissionAndOpen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !checkPermissionAllGranted(permissions)) {
+            checkPermission();
+        } else {
+            openCamera();
+        }
+
+    }
+
+    private void openCamera() {
+        startActivity(new Intent(MainActivity.this, CameraActivity.class));
+    }
+
+    /**
+     * 检查所有权限是否允许
+     *
+     * @param permissions
+     * @return
+     */
+    private boolean checkPermissionAllGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                // 只要有一个权限没有被授予, 则直接返回 false
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            boolean grantResult = true;
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permissions[i])) {
+                        openSettingOpenPermission();
+                    }
+                    grantResult = false;
+                }
+            }
+            if (grantResult) {
+                openCamera();
+            }
+
+        }
+    }
+
+    private void openSettingOpenPermission() {
+        new AlertDialog.Builder(this)
+                .setTitle("注意")
+                .setMessage(permissionMessage)
+                .setPositiveButton("去手动授权", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton("取消", null)
+                .show();
     }
 
     @Override
@@ -117,6 +179,7 @@ public class MainActivity extends FragmentActivity implements
 
     /**
      * 随着滑动百分比渐变tab背景
+     *
      * @param position
      * @param positionOffset
      * @param positionOffsetPixels
@@ -179,7 +242,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(COUNT,clickCount);
+        outState.putInt(COUNT, clickCount);
 
     }
 }
